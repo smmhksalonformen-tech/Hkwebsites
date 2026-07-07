@@ -46,6 +46,17 @@ export function Footer({
         <div className="text-center sm:text-right text-xs text-cream/40 space-y-0.5">
           <p>{legalName} · {address.split(",").slice(1).join(",").trim()}</p>
           <p>© {new Date().getFullYear()} HK Salon For Men. All rights reserved.</p>
+          <p>
+            Website design &amp; development by{" "}
+            <a
+              href="https://trellisdigitalagency.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-cream/60 hover:text-bronze transition-colors"
+            >
+              Trellis Digital Agency
+            </a>
+          </p>
         </div>
       </div>
     </footer>
