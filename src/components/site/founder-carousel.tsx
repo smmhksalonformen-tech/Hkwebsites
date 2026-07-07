@@ -9,7 +9,6 @@ const SLIDES = [
   { src: "/founder/3.jpg", alt: "Hadiqa Kiani smiling, wearing the Sitara-i-Imtiaz medal" },
   { src: "/founder/4.jpg", alt: "Hadiqa Kiani in the garden, wearing the Sitara-i-Imtiaz medal" },
   { src: "/founder/5.jpg", alt: "Hadiqa Kiani, recipient of Pakistan's Sitara-i-Imtiaz" },
-  { src: "/founder/6.jpg", alt: "Archival photo of Hadiqa Kiani receiving the Tamgha-i-Imtiaz" },
 ];
 
 export function FounderCarousel() {
