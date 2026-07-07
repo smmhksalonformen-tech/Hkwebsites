@@ -16,6 +16,7 @@ import { FounderCarousel } from "@/components/site/founder-carousel";
 import { InstagramIcon } from "@/components/site/social-icons";
 import { Reveal } from "@/components/site/reveal";
 import { FaqAccordion } from "@/components/site/faq-accordion";
+import { ReviewsSection } from "@/components/site/reviews-section";
 
 export const revalidate = 60;
 
@@ -24,13 +25,14 @@ export const metadata = {
 };
 
 async function getData() {
-  const [settings, services, packages, team] = await Promise.all([
+  const [settings, services, packages, team, testimonials] = await Promise.all([
     db.setting.findUnique({ where: { id: 1 } }),
     db.service.findMany({ where: { status: "published" }, orderBy: { order: "asc" } }),
     db.package.findMany({ where: { status: "published" }, orderBy: { order: "asc" } }),
     db.teamMember.findMany({ where: { status: "published" }, orderBy: { order: "asc" } }),
+    db.testimonial.findMany({ where: { status: "published" }, orderBy: { order: "asc" } }),
   ]);
-  return { settings, services, packages, team };
+  return { settings, services, packages, team, testimonials };
 }
 
 const FAQS = [
@@ -61,7 +63,7 @@ const FAQS = [
 ];
 
 export default async function Home() {
-  const { settings, services, packages, team } = await getData();
+  const { settings, services, packages, team, testimonials } = await getData();
   if (!settings) return null;
 
   const businessJsonLd = {
@@ -287,6 +289,15 @@ export default async function Home() {
               ))}
             </div>
           </Container>
+          </Reveal>
+        </section>
+
+        {/* REVIEWS */}
+        <section className="py-20 sm:py-28">
+          <Reveal>
+            <Container>
+              <ReviewsSection reviews={testimonials} />
+            </Container>
           </Reveal>
         </section>
 
