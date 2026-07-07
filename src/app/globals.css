@@ -1,0 +1,93 @@
+@import "tailwindcss";
+
+:root {
+  --color-ink-deep: #0a0908;
+  --color-ink: #100f0d;
+  --color-ink-soft: #1b1813;
+  --color-ink-line: #2a251e;
+  --color-cream: #f3eadd;
+  --color-bronze: #c9b18b;
+  --color-bronze-deep: #ad946c;
+  --color-champagne: #e7d8bf;
+
+  --background: var(--color-ink-deep);
+  --foreground: var(--color-cream);
+}
+
+@theme inline {
+  --color-ink-deep: var(--color-ink-deep);
+  --color-ink: var(--color-ink);
+  --color-ink-soft: var(--color-ink-soft);
+  --color-ink-line: var(--color-ink-line);
+  --color-cream: var(--color-cream);
+  --color-bronze: var(--color-bronze);
+  --color-bronze-deep: var(--color-bronze-deep);
+  --color-champagne: var(--color-champagne);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-display: var(--font-cormorant), ui-serif, Georgia, serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+@layer utilities {
+  .font-display {
+    font-family: var(--font-display);
+  }
+  .tracking-luxe {
+    letter-spacing: 0.28em;
+  }
+  .tracking-luxe-sm {
+    letter-spacing: 0.2em;
+  }
+}
+
+@keyframes logoFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-logo-in {
+  animation: logoFadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes whatsappFloat {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+.animate-whatsapp-float {
+  animation: whatsappFloat 2.4s ease-in-out infinite;
+}
+
+@keyframes bubbleIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-bubble-in {
+  animation: bubbleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+}

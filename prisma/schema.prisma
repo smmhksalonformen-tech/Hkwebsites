@@ -1,0 +1,140 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum AdminRole {
+  SUPER_ADMIN
+  ADMIN
+}
+
+model Admin {
+  id           String    @id @default(cuid())
+  email        String    @unique
+  passwordHash String
+  name         String?
+  role         AdminRole @default(ADMIN)
+  createdAt    DateTime  @default(now())
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  category    String
+  description String
+  duration    String
+  price       String   @default("On request")
+  order       Int      @default(0)
+  status      String   @default("published")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Package {
+  id         String   @id @default(cuid())
+  title      String
+  slug       String   @unique
+  tagline    String
+  price      Int
+  items      String[]
+  featured   Boolean  @default(false)
+  order      Int      @default(0)
+  status     String   @default("published")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+model TeamMember {
+  id        String   @id @default(cuid())
+  name      String
+  role      String
+  image     String?
+  order     Int      @default(0)
+  status    String   @default("published")
+  createdAt DateTime @default(now())
+}
+
+model GalleryPost {
+  id          String   @id @default(cuid())
+  image       String
+  caption     String?
+  link        String?
+  isVideo     Boolean  @default(false)
+  videoUrl    String?
+  order       Int      @default(0)
+  status      String   @default("published")
+  createdAt   DateTime @default(now())
+}
+
+model Testimonial {
+  id        String   @id @default(cuid())
+  quote     String
+  author    String
+  source    String   @default("Instagram")
+  rating    Int      @default(5)
+  order     Int      @default(0)
+  status    String   @default("published")
+  createdAt DateTime @default(now())
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  excerpt   String
+  content   String
+  image     String?
+  order     Int      @default(0)
+  status    String   @default("published")
+  createdAt DateTime @default(now())
+}
+
+model Lead {
+  id         String   @id @default(cuid())
+  name       String
+  phone      String
+  service    String?
+  specialist String?
+  date       String?
+  time       String?
+  status     String   @default("new")
+  createdAt  DateTime @default(now())
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  phone     String
+  email     String?
+  message   String
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+}
+
+model Setting {
+  id             Int    @id @default(1)
+  siteName       String @default("HK Salon For Men")
+  legalName      String @default("Hadiqa Kiani Salon For Men")
+  tagline        String @default("Where men come to own their look.")
+  standardsQuote String @default("Luxury isn't loud. It's in the details, the precision, and the confidence it creates.")
+  aboutFounder   String @default("")
+  address        String @default("7-B Tulip Street, Gulgasht Colony, Multan")
+  hours          String @default("Open daily · 12:00 pm – 11:00 pm")
+  phone          String @default("0320 0005337")
+  phoneSecondary String @default("0320 0005336")
+  whatsapp       String @default("923200005337")
+  instagram      String @default("hksalonformenmultan")
+  facebook       String @default("hksalonformenmultan")
+  tiktok         String @default("hksalonformenmultan")
+  mapsQuery      String @default("HK Salon For Men Gulgasht Colony Multan")
+  announcement   String @default("Now open — the flagship men's lounge in Gulgasht Colony, Multan.")
+  menuUrl        String @default("/menu.pdf")
+}
