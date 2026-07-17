@@ -148,8 +148,8 @@ export default async function Home() {
 
             <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-5">
               {[
-                { id: "1", alt: "An Experience of Style — a precision haircut in progress at HK Salon For Men" },
-                { id: "2", alt: "More Than Grooming — a stylist finishing a client's cut at HK Salon For Men" },
+                { id: "1", alt: "A client at HK Salon For Men, styled and ready to walk out with confidence" },
+                { id: "2", alt: "Sharp, clean grooming at HK Salon For Men — a look that speaks for itself" },
                 { id: "3", alt: "Make Every Impression Count — the finished look at HK Salon For Men" },
               ].map((img) => (
                 <div key={img.id} className="rounded-2xl overflow-hidden aspect-[4/5]">
@@ -190,11 +190,11 @@ export default async function Home() {
 
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-5">
               {[
-                { id: "photo-1", alt: "Hydrafacial treatment tools and skincare products at HK Salon For Men" },
-                { id: "photo-2", alt: "Applying serum during the Deep Clean Hydra Therapy at HK Salon For Men" },
-                { id: "photo-3", alt: "Hydrafacial device and towels prepared for treatment at HK Salon For Men" },
-                { id: "photo-4", alt: "The Hydrafacial console and skincare products set up for treatment at HK Salon For Men" },
-                { id: "photo-5", alt: "A Hydrafacial treatment head applied to a client's face at HK Salon For Men" },
+                { id: "photo-1", alt: "A Hydrafacial treatment being applied to a client's face at HK Salon For Men" },
+                { id: "photo-2", alt: "Hydrafacial tools, LED mask, and treatment console set up at HK Salon For Men" },
+                { id: "photo-3", alt: "A dermatologist-grade serum used during the Hydrafacial treatment at HK Salon For Men" },
+                { id: "photo-4", alt: "HK Salon branded towels prepared for a Hydrafacial treatment" },
+                { id: "photo-5", alt: "Fresh towels prepared for a Hydrafacial treatment at HK Salon For Men" },
                 { id: "photo-6", alt: "Close-up of a client's jawline after the Deep Clean Hydra Therapy" },
               ].map((img) => (
                 <div key={img.id} className="rounded-xl overflow-hidden aspect-[4/5] border border-ink-line">
