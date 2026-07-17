@@ -195,7 +195,7 @@ export default async function Home() {
                 { id: "photo-3", alt: "A dermatologist-grade serum used during the Hydrafacial treatment at HK Salon For Men" },
                 { id: "photo-4", alt: "HK Salon branded towels prepared for a Hydrafacial treatment" },
                 { id: "photo-5", alt: "Fresh towels prepared for a Hydrafacial treatment at HK Salon For Men" },
-                { id: "photo-6", alt: "Close-up of a client's jawline after the Deep Clean Hydra Therapy" },
+                { id: "photo-6", alt: "The Hydrafacial treatment cart set up with skincare products and an LED mask at HK Salon For Men" },
               ].map((img) => (
                 <div key={img.id} className="rounded-xl overflow-hidden aspect-[4/5] border border-ink-line">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
