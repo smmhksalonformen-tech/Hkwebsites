@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { PartyPopper, Copy, Check, Star } from "lucide-react";
+import { PartyPopper, Copy, Check } from "lucide-react";
 import { submitFestsphereEntry } from "@/lib/actions/festsphere";
 import { InstagramIcon, FacebookIcon, TikTokIcon } from "@/components/site/social-icons";
-
-const GOOGLE_REVIEW_URL = "https://g.page/r/CcZfkbrCmCFLEAE/review";
 
 type SocialLinks = {
   instagram: string;
@@ -74,9 +72,9 @@ export function FestsphereEntryForm({ socials }: { socials: SocialLinks }) {
     <div>
       <div className="rounded-2xl border border-bronze/30 bg-ink-soft p-5">
         <p className="text-center text-xs font-semibold uppercase tracking-luxe-sm text-bronze">
-          Follow us or leave a review to unlock your 10% off
+          Follow us to unlock your 10% off
         </p>
-        <div className="mt-4 grid grid-cols-4 gap-2">
+        <div className="mt-4 grid grid-cols-3 gap-2">
           <SocialButton
             href={`https://www.instagram.com/${socials.instagram}/`}
             label="Instagram"
@@ -94,12 +92,6 @@ export function FestsphereEntryForm({ socials }: { socials: SocialLinks }) {
             label="TikTok"
             onOpen={() => setUnlocked(true)}
             icon={<TikTokIcon className="h-5 w-5" />}
-          />
-          <SocialButton
-            href={GOOGLE_REVIEW_URL}
-            label="Review"
-            onOpen={() => setUnlocked(true)}
-            icon={<Star className="h-5 w-5" />}
           />
         </div>
       </div>
