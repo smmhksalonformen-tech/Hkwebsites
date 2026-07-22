@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Image from "next/image";
 import { CalendarDays, Clock, MapPin } from "lucide-react";
 import { FestsphereEntryForm } from "@/components/festsphere/entry-form";
 
@@ -12,7 +13,15 @@ export default function FestspherePage() {
     <main className="flex min-h-screen flex-col items-center justify-center px-5 py-16">
       <div className="w-full max-w-md">
         <div className="text-center">
-          <p className="text-xs font-semibold uppercase tracking-luxe text-bronze">HK Salon For Men &times; Fest Sphere</p>
+          <Image
+            src="/logo-cream.png"
+            alt="HK Salon For Men"
+            width={160}
+            height={64}
+            className="mx-auto h-14 w-auto"
+            priority
+          />
+          <p className="mt-4 text-xs font-semibold uppercase tracking-luxe text-bronze">&times; Fest Sphere</p>
           <h1 className="font-display mt-3 text-4xl italic text-champagne sm:text-5xl">Mega Summer Bazar</h1>
 
           <div className="mt-6 flex flex-col items-center gap-2 text-sm text-cream/70">
@@ -28,8 +37,8 @@ export default function FestspherePage() {
           </div>
 
           <p className="mx-auto mt-6 max-w-sm text-sm leading-relaxed text-cream/60">
-            Visit the HK Salon For Men stand at the bazar and fill in your details below to instantly claim
-            <span className="text-bronze"> 10% off</span> your next visit.
+            Welcome to HK Salon For Men &mdash; Multan&rsquo;s premium grooming destination. Fill in your details below
+            to instantly claim <span className="text-bronze">10% off</span> your next visit.
           </p>
         </div>
 
