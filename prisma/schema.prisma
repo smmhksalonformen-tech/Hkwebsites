@@ -119,6 +119,17 @@ model Message {
   createdAt DateTime @default(now())
 }
 
+model FestsphereEntry {
+  id         String   @id @default(cuid())
+  name       String
+  phone      String
+  address    String
+  couponCode String   @unique
+  redeemed   Boolean  @default(false)
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+}
+
 model Setting {
   id             Int    @id @default(1)
   siteName       String @default("HK Salon For Men")
