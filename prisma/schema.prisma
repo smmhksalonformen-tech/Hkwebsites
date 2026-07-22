@@ -120,14 +120,15 @@ model Message {
 }
 
 model FestsphereEntry {
-  id         String   @id @default(cuid())
+  id         String    @id @default(cuid())
   name       String
   phone      String
   address    String
-  couponCode String   @unique
-  redeemed   Boolean  @default(false)
+  dob        DateTime?
+  couponCode String    @unique
+  redeemed   Boolean   @default(false)
   expiresAt  DateTime
-  createdAt  DateTime @default(now())
+  createdAt  DateTime  @default(now())
 }
 
 model Setting {

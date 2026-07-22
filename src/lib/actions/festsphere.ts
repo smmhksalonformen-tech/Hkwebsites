@@ -7,6 +7,11 @@ const schema = z.object({
   name: z.string().trim().min(2, "Enter your full name"),
   phone: z.string().trim().min(7, "Enter a valid phone number"),
   address: z.string().trim().min(5, "Enter your address"),
+  dob: z
+    .string()
+    .trim()
+    .optional()
+    .transform((val) => (val ? val : undefined)),
 });
 
 type ActionResult =
@@ -21,7 +26,7 @@ function generateCouponCode() {
   return `FEST-${random}`;
 }
 
-async function pushToGoogleSheet(entry: { name: string; phone: string; address: string; couponCode: string }) {
+async function pushToGoogleSheet(entry: { name: string; phone: string; address: string; dob?: string; couponCode: string }) {
   const webhookUrl = process.env.FESTSPHERE_SHEET_WEBHOOK_URL;
   if (!webhookUrl) return;
 
@@ -33,6 +38,7 @@ async function pushToGoogleSheet(entry: { name: string; phone: string; address: 
         name: entry.name,
         phone: entry.phone,
         address: entry.address,
+        dob: entry.dob ?? "",
         couponCode: entry.couponCode,
         submittedAt: new Date().toISOString(),
       }),
@@ -47,20 +53,22 @@ export async function submitFestsphereEntry(formData: FormData): Promise<ActionR
     name: formData.get("name"),
     phone: formData.get("phone"),
     address: formData.get("address"),
+    dob: formData.get("dob"),
   });
 
   if (!parsed.success) {
     return { success: false, error: parsed.error.issues[0].message };
   }
 
+  const { dob, ...rest } = parsed.data;
   let couponCode = generateCouponCode();
 
   for (let attempt = 0; attempt < 5; attempt++) {
     try {
       await db.festsphereEntry.create({
-        data: { ...parsed.data, couponCode, expiresAt: EXPIRES_AT },
+        data: { ...rest, dob: dob ? new Date(dob) : undefined, couponCode, expiresAt: EXPIRES_AT },
       });
-      await pushToGoogleSheet({ ...parsed.data, couponCode });
+      await pushToGoogleSheet({ ...rest, dob, couponCode });
       return { success: true, couponCode };
     } catch (err: unknown) {
       const isUniqueClash = typeof err === "object" && err !== null && "code" in err && err.code === "P2002";

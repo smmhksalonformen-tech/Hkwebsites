@@ -2,13 +2,21 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { CalendarDays, Clock, MapPin } from "lucide-react";
 import { FestsphereEntryForm } from "@/components/festsphere/entry-form";
+import { db } from "@/lib/db";
 
 export const metadata: Metadata = {
   title: "Fest Sphere Mega Summer Bazar | HK Salon For Men",
   description: "Claim your 10% off coupon for HK Salon For Men at the Fest Sphere Mega Summer Bazar, Royal Orchard Multan.",
 };
 
-export default function FestspherePage() {
+export default async function FestspherePage() {
+  const settings = await db.setting.findUnique({ where: { id: 1 } });
+  const socials = {
+    instagram: settings?.instagram ?? "hksalonformenmultan",
+    facebook: settings?.facebook ?? "hksalonformenmultan",
+    tiktok: settings?.tiktok ?? "hksalonformenmultan",
+  };
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-center px-5 py-16">
       <div className="w-full max-w-md">
@@ -43,7 +51,7 @@ export default function FestspherePage() {
         </div>
 
         <div className="mt-10">
-          <FestsphereEntryForm />
+          <FestsphereEntryForm socials={socials} />
         </div>
       </div>
     </main>
