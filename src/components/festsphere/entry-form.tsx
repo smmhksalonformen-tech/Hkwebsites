@@ -17,6 +17,7 @@ export function FestsphereEntryForm({ socials }: { socials: SocialLinks }) {
   const [couponCode, setCouponCode] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   const [unlocked, setUnlocked] = useState(false);
+  const [dob, setDob] = useState("");
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -130,6 +131,9 @@ export function FestsphereEntryForm({ socials }: { socials: SocialLinks }) {
           <input
             name="dob"
             type="date"
+            required
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
             max={new Date().toISOString().slice(0, 10)}
             className="w-full rounded-lg border border-ink-line bg-ink-soft px-4 py-3 text-cream placeholder:text-cream/30 focus:border-bronze focus:outline-none [color-scheme:dark]"
           />
@@ -139,10 +143,10 @@ export function FestsphereEntryForm({ socials }: { socials: SocialLinks }) {
 
         <button
           type="submit"
-          disabled={isPending || !unlocked}
+          disabled={isPending || !unlocked || !dob}
           className="w-full rounded-lg bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-luxe-sm text-ink-deep transition-colors hover:bg-champagne disabled:cursor-not-allowed disabled:opacity-40"
         >
-          {isPending ? "Submitting…" : unlocked ? "Claim My 10% Off" : "Tap a button above to unlock"}
+          Claim 10% OFF
         </button>
       </form>
     </div>

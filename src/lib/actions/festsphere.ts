@@ -7,11 +7,7 @@ const schema = z.object({
   name: z.string().trim().min(2, "Enter your full name"),
   phone: z.string().trim().min(7, "Enter a valid phone number"),
   address: z.string().trim().min(5, "Enter your address"),
-  dob: z
-    .string()
-    .trim()
-    .optional()
-    .transform((val) => (val ? val : undefined)),
+  dob: z.string().trim().min(1, "Enter your date of birth"),
 });
 
 type ActionResult =
