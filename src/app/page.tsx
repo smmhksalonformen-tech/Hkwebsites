@@ -13,6 +13,7 @@ import { BookButton } from "@/components/site/book-button";
 import { Container } from "@/components/site/container";
 import { HeroSlider } from "@/components/site/hero-slider";
 import { FounderCarousel } from "@/components/site/founder-carousel";
+import { GroomCarousel } from "@/components/site/groom-carousel";
 import { InstagramIcon } from "@/components/site/social-icons";
 import { Reveal } from "@/components/site/reveal";
 import { FaqAccordion } from "@/components/site/faq-accordion";
@@ -146,29 +147,8 @@ export default async function Home() {
               Sherwani-ready fades, beard sculpting, and a finish fit for your big day.
             </p>
 
-            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
-              {[
-                { id: "02" },
-                { id: "03" },
-                { id: "04" },
-                { id: "06" },
-                { id: "07" },
-                { id: "09" },
-                { id: "10" },
-                { id: "C_P-11" },
-                { id: "C_P-2" },
-                { id: "C_P-3" },
-                { id: "C_P-4" },
-              ].map((img) => (
-                <div key={img.id} className="rounded-2xl overflow-hidden aspect-[3/4]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={`/groom/${img.id}.webp`}
-                    alt="Groom styling and sherwani-ready grooming at HK Salon For Men"
-                    className="h-full w-full object-cover hover:scale-105 transition-transform duration-300"
-                  />
-                </div>
-              ))}
+            <div className="mt-12">
+              <GroomCarousel />
             </div>
 
             <div className="mt-10 flex justify-center">
