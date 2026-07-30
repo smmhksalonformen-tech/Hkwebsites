@@ -136,6 +136,53 @@ export default async function Home() {
           </Container>
         </section>
 
+        {/* THE GROOM EDIT */}
+        <section className="py-20 sm:py-28">
+          <Reveal>
+          <Container>
+            <p className="font-mono text-xs tracking-luxe-sm uppercase text-bronze text-center">Wedding Season</p>
+            <h2 className="mt-2 font-display text-4xl sm:text-5xl text-cream text-center">The Groom Edit</h2>
+            <p className="mt-3 text-cream/60 text-center max-w-lg mx-auto">
+              Sherwani-ready fades, beard sculpting, and a finish fit for your big day.
+            </p>
+
+            <div className="mt-12 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-5">
+              {[
+                { id: "02" },
+                { id: "03" },
+                { id: "04" },
+                { id: "06" },
+                { id: "07" },
+                { id: "09" },
+                { id: "10" },
+                { id: "C_P-11" },
+                { id: "C_P-2" },
+                { id: "C_P-3" },
+                { id: "C_P-4" },
+              ].map((img) => (
+                <div key={img.id} className="rounded-2xl overflow-hidden aspect-[3/4]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/groom/${img.id}.webp`}
+                    alt="Groom styling and sherwani-ready grooming at HK Salon For Men"
+                    className="h-full w-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-10 flex justify-center">
+              <BookButton
+                prefill="Groom Styling"
+                className="rounded-lg bg-bronze px-7 py-3.5 text-xs font-bold tracking-luxe-sm uppercase text-ink-deep hover:bg-champagne transition-colors"
+              >
+                Book Your Groom Look →
+              </BookButton>
+            </div>
+          </Container>
+          </Reveal>
+        </section>
+
         {/* EXPERIENCE IN MOTION */}
         <section className="py-20 sm:py-28 bg-ink">
           <Reveal>
@@ -149,8 +196,8 @@ export default async function Home() {
             <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-5">
               {[
                 { id: "1", alt: "A client at HK Salon For Men, styled and ready to walk out with confidence" },
-                { id: "2", alt: "Sharp, clean grooming at HK Salon For Men — a look that speaks for itself" },
                 { id: "3", alt: "Make Every Impression Count — the finished look at HK Salon For Men" },
+                { id: "2", alt: "Sharp, clean grooming at HK Salon For Men — a look that speaks for itself" },
               ].map((img) => (
                 <div key={img.id} className="rounded-2xl overflow-hidden aspect-[4/5]">
                   {/* eslint-disable-next-line @next/next/no-img-element */}

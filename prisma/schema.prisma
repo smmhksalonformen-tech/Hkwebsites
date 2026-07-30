@@ -131,6 +131,15 @@ model FestsphereEntry {
   createdAt  DateTime  @default(now())
 }
 
+model BirthdayContact {
+  id             String    @id @default(cuid())
+  name           String
+  email          String
+  dob            DateTime
+  lastWishedYear Int?
+  createdAt      DateTime  @default(now())
+}
+
 model Setting {
   id             Int    @id @default(1)
   siteName       String @default("HK Salon For Men")
