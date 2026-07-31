@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutDashboard, Scissors, Package as PackageIcon, Users, Image as ImageIcon, Star, Newspaper, Settings, LogOut, Cake } from "lucide-react";
+import { LayoutDashboard, Scissors, Package as PackageIcon, Users, Image as ImageIcon, Star, Newspaper, Settings, LogOut, Cake, Stamp } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -14,6 +14,7 @@ const NAV_ITEMS = [
   { label: "Gallery", href: "/admin/gallery", icon: ImageIcon },
   { label: "Testimonials", href: "/admin/testimonials", icon: Star },
   { label: "Birthdays", href: "/admin/birthdays", icon: Cake },
+  { label: "Loyalty Card", href: "/admin/loyalty", icon: Stamp },
   { label: "Blog", href: "/admin/blog", icon: Newspaper },
   { label: "Settings", href: "/admin/settings", icon: Settings },
 ];

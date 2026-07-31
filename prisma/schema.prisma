@@ -140,6 +140,17 @@ model BirthdayContact {
   createdAt      DateTime  @default(now())
 }
 
+model LoyaltyMember {
+  id             String    @id @default(cuid())
+  name           String
+  phone          String    @unique
+  email          String?
+  stamps         Int       @default(0)
+  timesRedeemed  Int       @default(0)
+  lastRedeemedAt DateTime?
+  createdAt      DateTime  @default(now())
+}
+
 model Setting {
   id             Int    @id @default(1)
   siteName       String @default("HK Salon For Men")
