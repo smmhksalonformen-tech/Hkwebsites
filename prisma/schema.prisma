@@ -140,6 +140,12 @@ model BirthdayContact {
   createdAt      DateTime  @default(now())
 }
 
+enum LoyaltyStampStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
 model LoyaltyMember {
   id             String    @id @default(cuid())
   name           String
@@ -149,6 +155,16 @@ model LoyaltyMember {
   timesRedeemed  Int       @default(0)
   lastRedeemedAt DateTime?
   createdAt      DateTime  @default(now())
+  stampRequests  LoyaltyStampRequest[]
+}
+
+model LoyaltyStampRequest {
+  id         String             @id @default(cuid())
+  memberId   String
+  member     LoyaltyMember      @relation(fields: [memberId], references: [id])
+  status     LoyaltyStampStatus @default(PENDING)
+  createdAt  DateTime           @default(now())
+  resolvedAt DateTime?
 }
 
 model Setting {

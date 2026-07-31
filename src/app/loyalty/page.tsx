@@ -41,6 +41,7 @@ export default async function LoyaltyPage() {
               phone: member.phone,
               stamps: member.stamps,
               timesRedeemed: member.timesRedeemed,
+              hasPendingRequest: member.stampRequests.length > 0,
             }}
           />
         ) : (

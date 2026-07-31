@@ -1,9 +1,9 @@
 "use client";
 
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
-import { Scissors, Check, Gift, LogOut } from "lucide-react";
-import { signOutLoyaltyMember } from "@/lib/actions/loyalty";
+import { Scissors, Check, Gift, LogOut, Clock, Stamp } from "lucide-react";
+import { signOutLoyaltyMember, requestLoyaltyStamp } from "@/lib/actions/loyalty";
 import { STAMPS_REQUIRED } from "@/lib/loyalty-constants";
 
 type Member = {
@@ -11,17 +11,31 @@ type Member = {
   phone: string;
   stamps: number;
   timesRedeemed: number;
+  hasPendingRequest: boolean;
 };
 
 export function LoyaltyStampCard({ member }: { member: Member }) {
   const router = useRouter();
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
   const ready = member.stamps >= STAMPS_REQUIRED;
 
   function handleSignOut() {
     startTransition(async () => {
       await signOutLoyaltyMember();
       router.refresh();
+    });
+  }
+
+  function handleRequestStamp() {
+    setError(null);
+    startTransition(async () => {
+      const result = await requestLoyaltyStamp();
+      if (result.success) {
+        router.refresh();
+      } else {
+        setError(result.error);
+      }
     });
   }
 
@@ -70,10 +84,31 @@ export function LoyaltyStampCard({ member }: { member: Member }) {
             </p>
           </div>
         ) : (
-          <p className="mt-6 text-center text-sm text-cream/50">
-            {STAMPS_REQUIRED - member.stamps} more visit{STAMPS_REQUIRED - member.stamps === 1 ? "" : "s"} for a free
-            haircut + beard styling.
-          </p>
+          <>
+            <p className="mt-6 text-center text-sm text-cream/50">
+              {STAMPS_REQUIRED - member.stamps} more visit{STAMPS_REQUIRED - member.stamps === 1 ? "" : "s"} for a free
+              haircut + beard styling.
+            </p>
+
+            {member.hasPendingRequest ? (
+              <div className="mt-5 flex items-center gap-3 rounded-xl border border-amber-500/30 bg-amber-500/10 p-4">
+                <Clock className="h-5 w-5 shrink-0 text-amber-400" />
+                <p className="text-sm text-amber-200">
+                  1 stamp is pending staff approval. It will be added once approved.
+                </p>
+              </div>
+            ) : (
+              <button
+                type="button"
+                onClick={handleRequestStamp}
+                disabled={isPending}
+                className="mt-5 flex w-full items-center justify-center gap-2 rounded-lg bg-bronze px-6 py-3.5 text-sm font-semibold uppercase tracking-luxe-sm text-ink-deep transition-colors hover:bg-champagne disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                <Stamp className="h-4 w-4" /> {isPending ? "Requesting…" : "Request a Stamp"}
+              </button>
+            )}
+            {error && <p className="mt-3 text-center text-sm text-red-400">{error}</p>}
+          </>
         )}
 
         {member.timesRedeemed > 0 && (

@@ -51,7 +51,29 @@ export async function getMyLoyaltyMember() {
   const cookieStore = await cookies();
   const phone = cookieStore.get(LOYALTY_COOKIE)?.value;
   if (!phone) return null;
-  return db.loyaltyMember.findUnique({ where: { phone } });
+  return db.loyaltyMember.findUnique({
+    where: { phone },
+    include: { stampRequests: { where: { status: "PENDING" }, take: 1 } },
+  });
+}
+
+export async function requestLoyaltyStamp(): Promise<AdminActionResult> {
+  const cookieStore = await cookies();
+  const phone = cookieStore.get(LOYALTY_COOKIE)?.value;
+  if (!phone) return { success: false, error: "Please register first." };
+
+  const member = await db.loyaltyMember.findUnique({
+    where: { phone },
+    include: { stampRequests: { where: { status: "PENDING" }, take: 1 } },
+  });
+  if (!member) return { success: false, error: "Loyalty card not found." };
+  if (member.stamps >= STAMPS_REQUIRED) return { success: false, error: "Your card is already full — ask staff to redeem your reward." };
+  if (member.stampRequests.length > 0) return { success: false, error: "You already have a stamp pending approval." };
+
+  await db.loyaltyStampRequest.create({ data: { memberId: member.id } });
+  revalidatePath("/loyalty");
+  revalidatePath("/admin/loyalty");
+  return { success: true, message: "Stamp requested — ask staff to approve it." };
 }
 
 export async function lookupLoyaltyMemberByPhone(formData: FormData): Promise<ActionResult<{ id: string }>> {
@@ -122,6 +144,41 @@ export async function removeLoyaltyStamp(memberId: string): Promise<AdminActionR
   await db.loyaltyMember.update({ where: { id: memberId }, data: { stamps: { decrement: 1 } } });
   revalidatePath("/admin/loyalty");
   return { success: true, message: "Stamp removed." };
+}
+
+export async function approveLoyaltyStampRequest(requestId: string): Promise<AdminActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return { success: false, error: "You don't have permission to do this." };
+
+  const request = await db.loyaltyStampRequest.findUnique({ where: { id: requestId }, include: { member: true } });
+  if (!request) return { success: false, error: "Request not found." };
+  if (request.status !== "PENDING") return { success: false, error: "This request was already resolved." };
+
+  await db.$transaction([
+    db.loyaltyStampRequest.update({ where: { id: requestId }, data: { status: "APPROVED", resolvedAt: new Date() } }),
+    db.loyaltyMember.update({
+      where: { id: request.memberId },
+      data: { stamps: Math.min(request.member.stamps + 1, STAMPS_REQUIRED) },
+    }),
+  ]);
+
+  revalidatePath("/admin/loyalty");
+  revalidatePath("/loyalty");
+  return { success: true, message: "Stamp approved." };
+}
+
+export async function rejectLoyaltyStampRequest(requestId: string): Promise<AdminActionResult> {
+  const admin = await requireAdmin();
+  if (!admin) return { success: false, error: "You don't have permission to do this." };
+
+  const request = await db.loyaltyStampRequest.findUnique({ where: { id: requestId } });
+  if (!request) return { success: false, error: "Request not found." };
+  if (request.status !== "PENDING") return { success: false, error: "This request was already resolved." };
+
+  await db.loyaltyStampRequest.update({ where: { id: requestId }, data: { status: "REJECTED", resolvedAt: new Date() } });
+  revalidatePath("/admin/loyalty");
+  revalidatePath("/loyalty");
+  return { success: true, message: "Request rejected." };
 }
 
 export async function getLoyaltySiteUrl() {

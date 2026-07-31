@@ -3,8 +3,16 @@ import { db } from "@/lib/db";
 import { getLoyaltySiteUrl } from "@/lib/actions/loyalty";
 import { LoyaltyMemberRow } from "@/components/admin/loyalty-member-row";
 import { LoyaltySearch } from "@/components/admin/loyalty-search";
+import { PendingStampRequest } from "@/components/admin/pending-stamp-request";
 
 export const metadata: Metadata = { title: "Loyalty — HK Salon Admin" };
+
+const requestedAtFormatter = new Intl.DateTimeFormat("en-GB", {
+  day: "numeric",
+  month: "short",
+  hour: "numeric",
+  minute: "2-digit",
+});
 
 export default async function AdminLoyaltyPage({
   searchParams,
@@ -14,12 +22,17 @@ export default async function AdminLoyaltyPage({
   const { q } = await searchParams;
   const query = q?.trim() || "";
 
-  const [members, loyaltyUrl] = await Promise.all([
+  const [members, pendingRequests, loyaltyUrl] = await Promise.all([
     db.loyaltyMember.findMany({
       where: query
         ? { OR: [{ name: { contains: query, mode: "insensitive" } }, { phone: { contains: query } }] }
         : undefined,
       orderBy: { createdAt: "desc" },
+    }),
+    db.loyaltyStampRequest.findMany({
+      where: { status: "PENDING" },
+      include: { member: true },
+      orderBy: { createdAt: "asc" },
     }),
     getLoyaltySiteUrl(),
   ]);
@@ -34,6 +47,27 @@ export default async function AdminLoyaltyPage({
           3 stamps = a free haircut + beard styling. Add a stamp after every paid service.
         </p>
       </div>
+
+      {pendingRequests.length > 0 && (
+        <div>
+          <h2 className="mb-2 text-sm font-semibold uppercase tracking-luxe-sm text-amber-400">
+            Pending Approvals ({pendingRequests.length})
+          </h2>
+          <div className="divide-y divide-ink-line rounded-xl border border-amber-500/30 bg-ink-soft">
+            {pendingRequests.map((r) => (
+              <PendingStampRequest
+                key={r.id}
+                request={{
+                  id: r.id,
+                  memberName: r.member.name,
+                  memberPhone: r.member.phone,
+                  createdAt: requestedAtFormatter.format(r.createdAt),
+                }}
+              />
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_260px]">
         <div className="space-y-4">
