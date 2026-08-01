@@ -52,17 +52,17 @@ export function LoyaltyStampCard({ member }: { member: Member }) {
           {ready ? "Your reward is ready!" : `${member.stamps} of ${STAMPS_REQUIRED} Stamps`}
         </p>
 
-        <div className="mt-5 flex items-center justify-center gap-4">
+        <div className="mt-5 grid grid-cols-4 gap-3 sm:gap-4">
           {Array.from({ length: STAMPS_REQUIRED }).map((_, i) => {
             const filled = i < member.stamps;
             return (
               <div
                 key={i}
-                className={`flex h-16 w-16 items-center justify-center rounded-full border-2 transition-colors ${
+                className={`mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 transition-colors sm:h-16 sm:w-16 ${
                   filled ? "border-bronze bg-bronze text-ink-deep" : "border-dashed border-ink-line text-cream/20"
                 }`}
               >
-                {filled ? <Check className="h-7 w-7" /> : <Scissors className="h-6 w-6" />}
+                {filled ? <Check className="h-6 w-6 sm:h-7 sm:w-7" /> : <Scissors className="h-5 w-5 sm:h-6 sm:w-6" />}
               </div>
             );
           })}

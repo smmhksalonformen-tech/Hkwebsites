@@ -5,7 +5,7 @@ import { cookies, headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
-import { STAMPS_REQUIRED } from "@/lib/loyalty-constants";
+import { STAMPS_REQUIRED, WELCOME_STAMPS } from "@/lib/loyalty-constants";
 
 const LOYALTY_COOKIE = "hk_loyalty_phone";
 
@@ -32,7 +32,7 @@ export async function registerOrLookupLoyaltyMember(formData: FormData): Promise
   const member = await db.loyaltyMember.upsert({
     where: { phone },
     update: {},
-    create: { name, phone, email: email || null },
+    create: { name, phone, email: email || null, stamps: WELCOME_STAMPS },
   });
 
   const cookieStore = await cookies();
