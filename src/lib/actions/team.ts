@@ -39,6 +39,7 @@ export async function upsertTeamMember(id: string | null, formData: FormData): P
 
   revalidatePath("/");
   revalidatePath("/admin/team");
+  revalidatePath("/artists");
   return { success: true, message: id ? "Team member updated." : "Team member added." };
 }
 
@@ -49,5 +50,6 @@ export async function deleteTeamMember(id: string): Promise<ActionResult> {
   await db.teamMember.delete({ where: { id } });
   revalidatePath("/");
   revalidatePath("/admin/team");
+  revalidatePath("/artists");
   return { success: true, message: "Team member removed." };
 }
