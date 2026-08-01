@@ -32,7 +32,7 @@ export async function registerOrLookupLoyaltyMember(formData: FormData): Promise
   const member = await db.loyaltyMember.upsert({
     where: { phone },
     update: {},
-    create: { name, phone, email: email || null, stamps: WELCOME_STAMPS },
+    create: { name, phone, email: email || null },
   });
 
   const cookieStore = await cookies();
@@ -112,9 +112,13 @@ export async function addLoyaltyStamp(memberId: string): Promise<AdminActionResu
     return { success: false, error: "This card is already full — redeem the reward first." };
   }
 
-  await db.loyaltyMember.update({ where: { id: memberId }, data: { stamps: { increment: 1 } } });
+  const grant = member.stamps === 0 ? WELCOME_STAMPS : 1;
+  await db.loyaltyMember.update({
+    where: { id: memberId },
+    data: { stamps: Math.min(member.stamps + grant, STAMPS_REQUIRED) },
+  });
   revalidatePath("/admin/loyalty");
-  return { success: true, message: "Stamp added." };
+  return { success: true, message: grant > 1 ? `${grant} stamps added (first visit bonus).` : "Stamp added." };
 }
 
 export async function redeemLoyaltyReward(memberId: string): Promise<AdminActionResult> {
@@ -154,11 +158,12 @@ export async function approveLoyaltyStampRequest(requestId: string): Promise<Adm
   if (!request) return { success: false, error: "Request not found." };
   if (request.status !== "PENDING") return { success: false, error: "This request was already resolved." };
 
+  const grant = request.member.stamps === 0 ? WELCOME_STAMPS : 1;
   await db.$transaction([
     db.loyaltyStampRequest.update({ where: { id: requestId }, data: { status: "APPROVED", resolvedAt: new Date() } }),
     db.loyaltyMember.update({
       where: { id: request.memberId },
-      data: { stamps: Math.min(request.member.stamps + 1, STAMPS_REQUIRED) },
+      data: { stamps: Math.min(request.member.stamps + grant, STAMPS_REQUIRED) },
     }),
   ]);
 
