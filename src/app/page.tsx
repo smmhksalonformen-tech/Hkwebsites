@@ -164,14 +164,14 @@ export default async function Home() {
           </Reveal>
         </section>
 
-        {/* THE 2026 GALLERY */}
+        {/* LATEST LOOKS GALLERY */}
         <section className="py-20 sm:py-28 bg-ink">
           <Reveal>
           <Container>
-            <p className="font-mono text-xs tracking-luxe-sm uppercase text-bronze text-center">Latest work</p>
-            <h2 className="mt-2 font-display text-4xl sm:text-5xl text-cream text-center">The 2026 Gallery</h2>
+            <p className="font-mono text-xs tracking-luxe-sm uppercase text-bronze text-center">Fresh from the chair</p>
+            <h2 className="mt-2 font-display text-4xl sm:text-5xl text-cream text-center">Latest Looks</h2>
             <p className="mt-3 text-cream/60 text-center max-w-lg mx-auto">
-              Fresh from the chair — a new set of cuts, fades and beard work from our latest shoot.
+              A new set of cuts, fades and beard work from our latest shoot.
             </p>
 
             <div className="mt-12">

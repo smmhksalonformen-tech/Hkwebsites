@@ -5,8 +5,21 @@ import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
 const DEFAULT_IMAGES = ["02", "03", "04", "06", "07", "09", "10", "C_P-11", "C_P-2", "C_P-3", "C_P-4"];
 
+function shuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
 export function GroomCarousel({ images = DEFAULT_IMAGES }: { images?: string[] }) {
-  const IMAGES = images;
+  // Start in source order (stable for SSR/hydration), shuffle once on mount so
+  // the run of looks feels different every visit.
+  const [IMAGES, setImages] = useState(images);
+  useEffect(() => setImages(shuffle(images)), [images]);
+
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState(3);
