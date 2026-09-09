@@ -26,11 +26,7 @@ export function PromoPopup({ whatsapp }: { whatsapp: string }) {
       if (e.key === "Escape") close();
     };
     document.addEventListener("keydown", onKey);
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = "";
-    };
+    return () => document.removeEventListener("keydown", onKey);
   }, [open]);
 
   function close() {
@@ -50,15 +46,13 @@ export function PromoPopup({ whatsapp }: { whatsapp: string }) {
 
   return (
     <div
-      className="fixed inset-0 z-[60] flex items-end justify-center bg-black/70 p-0 backdrop-blur-sm sm:items-center sm:p-4"
+      className="pointer-events-none fixed inset-0 z-[60] flex items-center justify-center p-4"
       role="dialog"
-      aria-modal="true"
+      aria-modal="false"
       aria-labelledby="promo-title"
-      onClick={close}
     >
       <div
-        className="relative w-full max-h-[92dvh] overflow-y-auto rounded-t-3xl border border-ink-line bg-ink-soft p-6 shadow-2xl shadow-black/60 sm:max-w-md sm:rounded-3xl sm:p-8"
-        onClick={(e) => e.stopPropagation()}
+        className="animate-bubble-in pointer-events-auto relative max-h-[88dvh] w-full max-w-md overflow-y-auto rounded-3xl border border-ink-line bg-ink-soft p-6 shadow-2xl shadow-black/70 ring-1 ring-black/20 sm:p-8"
       >
         <button
           type="button"
