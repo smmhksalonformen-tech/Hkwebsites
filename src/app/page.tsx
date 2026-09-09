@@ -8,6 +8,7 @@ import { Footer } from "@/components/site/footer";
 import { AnnouncementBar } from "@/components/site/announcement-bar";
 import { WhatsAppFloat } from "@/components/site/whatsapp-float";
 import { BookingModal } from "@/components/site/booking-modal";
+import { PromoPopup } from "@/components/site/promo-popup";
 import { ServicesSection } from "@/components/site/services-section";
 import { BookButton } from "@/components/site/book-button";
 import { Container } from "@/components/site/container";
@@ -435,6 +436,7 @@ export default async function Home() {
       </div>
 
       <WhatsAppFloat whatsapp={settings.whatsapp} />
+      <PromoPopup whatsapp={settings.whatsapp} />
       <BookingModal packages={packages} services={services} team={team} whatsapp={settings.whatsapp} />
     </BookingProvider>
   );

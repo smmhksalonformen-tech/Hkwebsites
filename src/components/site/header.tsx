@@ -9,6 +9,7 @@ import { BookButton } from "./book-button";
 const NAV = [
   { label: "Services", href: "/#services" },
   { label: "Signatures", href: "/#signatures" },
+  { label: "Deals", href: "/deals" },
   { label: "Artists", href: "/artists" },
   { label: "Blog", href: "/blog" },
   { label: "Location", href: "/#location" },
