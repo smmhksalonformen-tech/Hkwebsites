@@ -41,33 +41,29 @@ type Pkg = {
 
 const STUDENT_PACKAGES: Pkg[] = [
   {
-    name: "Student Cut",
-    tag: "The quick refresh",
-    price: 900,
-    was: 1200,
-    items: ["Hair Cut", "Styling", "Student ID rate"],
+    name: "Student Package 1",
+    tag: "Cut, wash & finish",
+    price: 1200,
+    items: ["Hair Cut", "Wash", "Hair Fixing", "Hair Styling"],
   },
   {
-    name: "Cut + Beard",
-    tag: "Sharp from every angle",
+    name: "Student Package 2",
+    tag: "Cut & beard",
     price: 1500,
-    was: 1900,
-    items: ["Hair Cut", "Beard Shaping", "Hot Towel", "Styling"],
+    items: ["Hair Cut", "Beard", "Styling"],
+  },
+  {
+    name: "Student Package 3",
+    tag: "Cut, beard & face polish",
+    price: 2500,
+    items: ["Hair Cut", "Beard", "Face Polish"],
     featured: true,
   },
   {
-    name: "The Full Session",
-    tag: "The complete grooming session",
-    price: 2600,
-    was: 3400,
-    items: ["Hair Cut", "Beard", "Head & Shoulder Massage", "Wash", "Deep Cleansing"],
-  },
-  {
-    name: "4-Person Deal",
-    tag: "Bring the squad",
-    price: 3200,
-    was: 4800,
-    items: ["4 × Hair Cut", "4 × Styling", "One combined booking"],
+    name: "Student Package 4",
+    tag: "Hands & feet glow",
+    price: 4000,
+    items: ["Hand Glow (Polish)", "Feet Glow (Polish)", "Manicure", "Pedicure"],
   },
 ];
 
