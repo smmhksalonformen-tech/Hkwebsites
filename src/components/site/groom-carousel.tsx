@@ -3,15 +3,10 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 
-const IMAGES = [
-  "02", "03", "04", "06", "07", "09", "10", "C_P-11", "C_P-2", "C_P-3", "C_P-4",
-  // 2026 shoot
-  "C_P-13", "C_P-31", "C_P-34", "C_P-83", "C_P-84", "C_P-88", "C_P-93", "C_P-94",
-  "C_P-95", "C_P-97", "C_P-102", "C_P-106", "C_P-109", "C_P-113", "C_P-114",
-  "C_P-122", "C_P-125", "C_P-127", "C_P-128",
-];
+const DEFAULT_IMAGES = ["02", "03", "04", "06", "07", "09", "10", "C_P-11", "C_P-2", "C_P-3", "C_P-4"];
 
-export function GroomCarousel() {
+export function GroomCarousel({ images = DEFAULT_IMAGES }: { images?: string[] }) {
+  const IMAGES = images;
   const [index, setIndex] = useState(0);
   const [lightbox, setLightbox] = useState<number | null>(null);
   const [visibleCount, setVisibleCount] = useState(3);
