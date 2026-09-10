@@ -32,6 +32,11 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
   },
+  verification: {
+    other: {
+      "p:domain_verify": "e1c2eb560dc71ac0376706f2a7364f2d",
+    },
+  },
 };
 
 export default function RootLayout({
