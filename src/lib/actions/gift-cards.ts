@@ -3,8 +3,10 @@
 import { randomBytes } from "crypto";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
+import { after } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
+import { sendGiftCardOrderAlert } from "@/lib/gift-card-email";
 import { isGiftCardAmount, MAX_QTY_PER_CARD, ORDER_STATUSES, type OrderItem } from "@/lib/gift-cards";
 
 type ActionResult = { success: true; message: string } | { success: false; error: string };
@@ -60,7 +62,7 @@ export async function createGiftCardOrder(
 
   for (let attempt = 0; attempt < 5; attempt++) {
     try {
-      await db.giftCardOrder.create({
+      const order = await db.giftCardOrder.create({
         data: {
           reference: makeReference(),
           token,
@@ -77,6 +79,12 @@ export async function createGiftCardOrder(
         },
       });
       revalidatePath("/admin/gift-cards");
+      // Notify the salon after the response is sent; an email failure must never fail the order.
+      after(() =>
+        sendGiftCardOrderAlert({ ...order, items }).catch((e) =>
+          console.error("[gift-card-email] failed to send order alert", e)
+        )
+      );
       return { success: true, token };
     } catch (e) {
       // Unique-constraint clash on reference: retry with a new one.

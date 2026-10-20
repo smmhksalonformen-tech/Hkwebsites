@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-function getTransport() {
+export function getTransport() {
   const user = process.env.GMAIL_USER;
   const pass = process.env.GMAIL_APP_PASSWORD;
   if (!user || !pass) return null;
