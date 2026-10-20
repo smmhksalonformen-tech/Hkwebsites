@@ -7,7 +7,7 @@ import { after } from "next/server";
 import { db } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
 import { sendGiftCardOrderAlert } from "@/lib/gift-card-email";
-import { isGiftCardAmount, MAX_QTY_PER_CARD, ORDER_STATUSES, type OrderItem } from "@/lib/gift-cards";
+import { GIFT_CARDS_LIVE, isGiftCardAmount, MAX_QTY_PER_CARD, ORDER_STATUSES, type OrderItem } from "@/lib/gift-cards";
 
 type ActionResult = { success: true; message: string } | { success: false; error: string };
 
@@ -44,6 +44,8 @@ function makeReference() {
 export async function createGiftCardOrder(
   input: GiftCardOrderInput
 ): Promise<{ success: true; token: string } | { success: false; error: string }> {
+  if (!GIFT_CARDS_LIVE) return { success: false, error: "Gift cards are launching soon." };
+
   const parsed = orderSchema.safeParse(input);
   if (!parsed.success) return { success: false, error: parsed.error.issues[0].message };
   const d = parsed.data;

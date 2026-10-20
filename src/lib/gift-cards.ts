@@ -1,3 +1,7 @@
+// Launch switch. While false, /gift-cards shows "Launching soon", the cart is
+// hidden and the server refuses new orders. Flip to true to go live.
+export const GIFT_CARDS_LIVE = false;
+
 // Single source of truth for gift card values. The server recomputes every
 // order total from this list — never trust amounts sent from the browser.
 export const GIFT_CARD_AMOUNTS = [5000, 10000] as const;

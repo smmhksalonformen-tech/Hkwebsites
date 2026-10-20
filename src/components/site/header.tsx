@@ -7,6 +7,7 @@ import { Menu, X, ShoppingBag } from "lucide-react";
 import { Container } from "./container";
 import { BookButton } from "./book-button";
 import { useCart } from "./cart-context";
+import { GIFT_CARDS_LIVE } from "@/lib/gift-cards";
 
 const NAV = [
   { label: "Services", href: "/#services" },
@@ -22,7 +23,7 @@ export function Header({ menuUrl }: { menuUrl: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { count } = useCart();
 
-  const cartLink = (
+  const cartLink = GIFT_CARDS_LIVE && (
     <Link href="/cart" className="relative p-2 text-cream/80 hover:text-cream transition-colors" aria-label={`Cart, ${count} items`}>
       <ShoppingBag className="h-5 w-5" />
       {count > 0 && (
