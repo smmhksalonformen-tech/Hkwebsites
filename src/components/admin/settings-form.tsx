@@ -22,6 +22,10 @@ type Setting = {
   mapsQuery: string;
   announcement: string;
   menuUrl: string;
+  bankName: string;
+  bankAccountTitle: string;
+  bankAccountNumber: string;
+  bankIban: string;
 } | null;
 
 const FIELD = "w-full rounded-lg border border-ink-line bg-ink-soft px-3 py-2.5 text-sm text-cream focus:border-bronze focus:outline-none";
@@ -123,6 +127,29 @@ export function SettingsForm({ settings }: { settings: Setting }) {
             To replace the menu, drop the new PDF file in the project&apos;s <code>public/</code> folder and point this at
             its filename (e.g. <code>/menu.pdf</code>).
           </p>
+        </div>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="font-display text-xl text-cream border-b border-ink-line pb-2">Gift Card Payments (Bank Transfer)</h2>
+        <p className="text-xs text-cream/40">Shown to customers after they place a gift card order. Leave blank to share details on WhatsApp instead.</p>
+        <div className="grid sm:grid-cols-2 gap-4">
+          <div className="space-y-1.5">
+            <label className={LABEL}>Bank Name</label>
+            <input name="bankName" defaultValue={settings?.bankName ?? ""} placeholder="Meezan Bank" className={FIELD} />
+          </div>
+          <div className="space-y-1.5">
+            <label className={LABEL}>Account Title</label>
+            <input name="bankAccountTitle" defaultValue={settings?.bankAccountTitle ?? ""} className={FIELD} />
+          </div>
+          <div className="space-y-1.5">
+            <label className={LABEL}>Account Number</label>
+            <input name="bankAccountNumber" defaultValue={settings?.bankAccountNumber ?? ""} className={FIELD} />
+          </div>
+          <div className="space-y-1.5">
+            <label className={LABEL}>IBAN</label>
+            <input name="bankIban" defaultValue={settings?.bankIban ?? ""} placeholder="PK00XXXX0000000000000000" className={FIELD} />
+          </div>
         </div>
       </section>
 

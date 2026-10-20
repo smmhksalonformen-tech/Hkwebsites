@@ -24,6 +24,10 @@ const settingsSchema = z.object({
   mapsQuery: z.string().min(1),
   announcement: z.string().min(1),
   menuUrl: z.string().min(1),
+  bankName: z.string().optional(),
+  bankAccountTitle: z.string().optional(),
+  bankAccountNumber: z.string().optional(),
+  bankIban: z.string().optional(),
 });
 
 export async function updateSettings(formData: FormData): Promise<ActionResult> {
@@ -45,5 +49,6 @@ export async function updateSettings(formData: FormData): Promise<ActionResult> 
 
   revalidatePath("/");
   revalidatePath("/admin/settings");
+  revalidatePath("/gift-cards", "layout");
   return { success: true, message: "Settings saved." };
 }

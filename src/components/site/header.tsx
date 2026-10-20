@@ -1,15 +1,18 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingBag } from "lucide-react";
 import { Container } from "./container";
 import { BookButton } from "./book-button";
+import { useCart } from "./cart-context";
 
 const NAV = [
   { label: "Services", href: "/#services" },
   { label: "Signatures", href: "/#signatures" },
   { label: "Deals", href: "/deals" },
+  { label: "Gift Cards", href: "/gift-cards" },
   { label: "Artists", href: "/artists" },
   { label: "Blog", href: "/blog" },
   { label: "Location", href: "/#location" },
@@ -17,6 +20,18 @@ const NAV = [
 
 export function Header({ menuUrl }: { menuUrl: string }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { count } = useCart();
+
+  const cartLink = (
+    <Link href="/cart" className="relative p-2 text-cream/80 hover:text-cream transition-colors" aria-label={`Cart, ${count} items`}>
+      <ShoppingBag className="h-5 w-5" />
+      {count > 0 && (
+        <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-bronze px-1 text-[10px] font-bold text-ink-deep">
+          {count}
+        </span>
+      )}
+    </Link>
+  );
 
   return (
     <header className="sticky top-0 z-50 bg-ink-deep/85 backdrop-blur-md border-b border-ink-line">
@@ -49,14 +64,18 @@ export function Header({ menuUrl }: { menuUrl: string }) {
           </nav>
 
           <div className="hidden lg:flex items-center gap-3 shrink-0">
+            {cartLink}
             <BookButton className="rounded-lg bg-bronze px-4 py-2 text-xs font-semibold tracking-wide uppercase text-ink-deep hover:bg-champagne transition-colors">
               Book Appointment
             </BookButton>
           </div>
 
-          <button className="lg:hidden text-cream" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle menu">
-            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-          </button>
+          <div className="flex items-center gap-2 lg:hidden">
+            {cartLink}
+            <button className="text-cream" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle menu">
+              {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            </button>
+          </div>
         </div>
       </Container>
 

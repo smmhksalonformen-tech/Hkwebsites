@@ -185,4 +185,30 @@ model Setting {
   mapsQuery      String @default("HK Salon For Men Gulgasht Colony Multan")
   announcement   String @default("Now open — the flagship men's lounge in Gulgasht Colony, Multan.")
   menuUrl        String @default("/menu.pdf")
+  bankName          String @default("")
+  bankAccountTitle  String @default("")
+  bankAccountNumber String @default("")
+  bankIban          String @default("")
+}
+
+// Physical gift cards bought online, paid by bank transfer, delivered by the salon.
+model GiftCardOrder {
+  id             String   @id @default(cuid())
+  reference      String   @unique
+  token          String   @unique
+  name           String
+  phone          String
+  email          String?
+  deliveryMethod String   @default("delivery")
+  city           String   @default("")
+  address        String   @default("")
+  recipientName  String?
+  giftMessage    String?
+  items          Json
+  total          Int
+  status         String   @default("pending_payment")
+  cardNumbers    String   @default("")
+  adminNote      String   @default("")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }

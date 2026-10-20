@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import { Toaster } from "sonner";
+import { CartProvider } from "@/components/site/cart-context";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -51,7 +52,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col bg-ink-deep text-cream">
-        {children}
+        <CartProvider>{children}</CartProvider>
         <Toaster position="bottom-right" theme="dark" />
       </body>
     </html>
